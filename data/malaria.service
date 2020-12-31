@@ -1,0 +1,9 @@
+[Unit]
+Description=Malaria
+After=network.target
+[Service]
+ExecStart=/usr/local/bin/malaria -b
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

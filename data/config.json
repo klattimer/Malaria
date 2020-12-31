@@ -1,0 +1,56 @@
+{
+    "log_file": "/var/log/malaria.log",
+    "update_interval": 10,
+    "mosquitto": {
+        "host": "192.168.1.3",
+        "port": 1883,
+        "username": "blaster",
+        "password": "blasted",
+        "base_topic": "Malaria"
+    },
+    "plugins": {
+        "RaspberryPi": {
+            "enabled": false
+        },
+        "Disks": {
+            "enabled": true
+        },
+        "CPU": {
+            "enabled": true
+        },
+        "DiskIO": {
+            "enabled": true
+        },
+        "INA219": {
+            "enabled": false,
+            "addr": 66
+        },
+        "NUT": {
+            "enabled": false
+        },
+        "LoadAvereage": {
+            "enabled": true
+        },
+        "Memory": {
+            "enabled": true
+        },
+        "Network": {
+            "enabled": true
+        },
+        "Users": {
+            "enabled": true
+        },
+        "Netstat": {
+            "enabled": true
+        },
+        "ZeroconfMalaria": {
+            "enabled": true
+        },
+        "DNLA": {
+            "enabled": true
+        },
+        "Uptime": {
+            "enabled": true
+        }
+    }
+}
