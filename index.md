@@ -1,37 +1,89 @@
-## Welcome to GitHub Pages
+# Malaria
 
-You can use the [editor on GitHub](https://github.com/klattimer/Malaria/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Malaria is a pluggable system for gathering current system data points and publishing them to an MQTT service. The
+intention is to provide a basic shim project that people can add python code snippets to, and have that data
+reported to a mosquitto server for other systems to subscribe to.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The idea is to keep this simple and small but very easy to extend with new features. Plugins can be added in a few
+lines of boiler plate plus whatever you want to monitor. Malaria works best for users when it's running on every
+system they use, reporting to a centralised (and/or replicated) Mosquitto server, then the events generated in the
+mosquitto server can be tied into other processes which act on them accordingly.
 
-### Markdown
+Malaria is intended to generate dense amounts of sometimes changing data, some of these data points are useful for
+charting and general monitoring, where as others provide structure which can be used as metadata. There are some
+limitations to this kind of monitoring. For instance we don't want to generate huge amounts of fast changing data
+which is useless like the kind of data we might see for system processes or incoming network connections. These
+types of data collection would have gaps, and hit performance un-necessarily.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Features
 
-```markdown
-Syntax highlighted code block
+ - Monitor NUT UPSMON
+ - Monitor CPU temperature and usage
+ - Monitor disk usage and io
+ - Monitor Waveshare UPS backpack for Raspberry Pi
+ - Monitor Raspberry Pi internal temperature
+ - Monitor online/offline and network connections
+ - Monitor system load average
+ - Monitor system users
 
-# Header 1
-## Header 2
-### Header 3
+## Installation
 
-- Bulleted
-- List
+```bash
+sudo apt install smartmontools
+sudo python3 setup.py install
+sudo malaria_setup
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+# Make any appropriate changes to /etc/malaria/config.json
+sudo service malaria start
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Configuration
 
-### Jekyll Themes
+The configuration file is a simple JSON document to allow easy validation
+and editing in modern editors. Once installed it can be found in ```/etc/malaria/config.json```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/klattimer/Malaria/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The basic required configuration looks like this.
+```json
+{
+    "log_file": "/var/log/malaria.log",
+    "update_interval": 10,
+    "mosquitto": {
+        "host": "192.168.1.3",
+        "port": 1883,
+        "username": "blaster",
+        "password": "blasted",
+        "base_topic": "Malaria"
+    },
+    "plugins": {
+    }
+}
+```
 
-### Support or Contact
+### Plugin configuration
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Plugins can be designed to take in extra configuration parameters on initialisation
+these are passed to the init function, and can also have default values associated with
+them. Required values which are omitted will prevent the plugin from initialising and
+will generate an exception in the logs.
+
+Here's an example using the INA219 backpack from waveshare on an old Raspberry Pi 1,
+which used i2c_bus 0 rather than 1 like the newer Pis.
+
+```json
+"INA219": {
+    "enabled": true,
+    "addr": 66,
+    "i2c_bus": 0
+}
+```
+
+
+## Contributions
+
+All contributions will be considered, useful ones which are clear and concise will likely
+get accepted quickly.
+
+- (Architecture)[docs/Architecture.md]
+- (Writing Plugins)[docs/WritingPlugins.md]
+- (Code of Conduct)[docs/code_of_conduct.md]
+- (License)[docs/license.md]
