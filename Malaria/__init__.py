@@ -108,7 +108,7 @@ class Malaria:
             subtopic = subtopic[:-1]
 
         topics = subtopic.split('/')
-        if len(topics) > 1 and topics[-1] == "temperature" or ( len(topics) > 2 and topics[-2] == "temperature" and topics[-1] == "current"):
+        if len(topics) > 1 and topics[-1] == "temperature" or (len(topics) > 2 and topics[-2] == "temperature" and topics[-1] == "current"):
             key = topics[topics.index("temperature") - 1] + ' temperature'
             self.register_homeassistant_sensor(subtopic, "temperature", key, "\u00b0C", "float")
         self.report_queue.put((self.base_topic + '/' + subtopic, value))
@@ -133,17 +133,18 @@ class Malaria:
         else:
             value_template = "{{ value }}"
 
+        name = name.replace(' ', '_')
         ha_sensor = {
             "device": {
-                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name']],
+                "identifiers": ["malaria-" + self.config['name']],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+                "name": "malaria-" + self.config['name']
             },
             "device_class": device_class,
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
-            "unique_id": "malaria-" + MALARIA_VERSION + '-' + self.config['name'] + '-' + name,
+            "unique_id": "malaria-" + self.config['name'] + '-' + name,
             "unit_of_measurement": units,
             "value_template": value_template,
             "platform": "mqtt"
