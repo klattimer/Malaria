@@ -11,6 +11,8 @@ import shutil
 from queue import Queue
 from .Plugins import MalariaPlugin
 
+MALARIA_VERSION = '0.1'
+
 
 class Malaria:
     def __init__(self, **kwargs):
@@ -104,6 +106,11 @@ class Malaria:
             subtopic = subtopic[1:]
         if subtopic.endswith('/'):
             subtopic = subtopic[:-1]
+
+        topics = subtopic.split('/')
+        if topics[-1] == "temperature" or (topics[-2] == "temperature" and topics[-1] == "current"):
+            key = topics[topics.index("temperature") - 1] + ' temperature'
+            self.register_homeassistant_sensor(subtopic, "temperature", key, "\u00b0C", "float")
         self.report_queue.put((self.base_topic + '/' + subtopic, value))
 
     def drain(self):
@@ -117,6 +124,69 @@ class Malaria:
 
             self.report_queue.task_done()
         self.report_queue.join()
+
+    def register_homeassistant_sensor(self, topic, device_class, name, units, value_type):
+        if value_type == "float":
+            value_template = "{{ value|float|round(2) }}"
+        elif value_type == "int":
+            value_template = "{{ value|int }}"
+        else:
+            value_template = "{{ value }}"
+
+        ha_sensor = {
+            "device": {
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name']],
+                "manufacturer": 'malaria',
+                "model": 'malaria-' + MALARIA_VERSION,
+                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+            },
+            "device_class": device_class,
+            "name": name,
+            "state_topic": self.base_topic + '/' + topic,
+            "unique_id": "malaria-" + MALARIA_VERSION + '-' + self.config['name'] + '-' + name,
+            "unit_of_measurement": units,
+            "value_template": value_template,
+            "platform": "mqtt"
+        }
+
+        ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'], ha_sensor['unique_id'])
+        self.client.publish(ha_topic, json.dumps(ha_sensor))
+
+    def register_homeassistant_trigger(self, topic, device_class, name, units, value_type):
+        ha_trigger = {
+            "automation_type": "trigger",
+            "topic": self.base_topic + '/' + topic,
+            "type": "button_short_release",
+            "subtype": "button_1",
+            "payload": "Button0",
+            "device": {
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name']],
+                "manufacturer": 'malaria',
+                "model": 'malaria-' + MALARIA_VERSION,
+                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+            },
+            "platform": "mqtt"
+        }
+        ha_topic = "homeassistant/device_automation/%s/%s/config" % (ha_trigger['device']['name'], ha_trigger['unique_id'])
+        self.client.publish(ha_topic, json.dumps(ha_trigger))
+
+    def register_homeassistant_binary_sensor(self, topic, device_class, name, units, value_type):
+        ha_binary_sensor = {
+            "device": {
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name']],
+                "manufacturer": 'malaria',
+                "model": 'malaria-' + MALARIA_VERSION,
+                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+            },
+            "device_class": device_class,
+            "name": name,
+            "state_topic": self.base_topic + '/' + topic,
+            "unique_id": "malaria-" + MALARIA_VERSION + '-' + self.config['name'] + '-' + name,
+            "platform": "mqtt"
+        }
+        ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (ha_binary_sensor['device']['name'], ha_binary_sensor['unique_id'])
+
+        self.client.publish(ha_topic, json.dumps(ha_binary_sensor))
 
     def update(self):
         for plugin in self.plugins:
@@ -146,7 +216,7 @@ def setup():
     config['mosquitto']['base_topic'] = input("MQTT base topic (Malaria/<hostname>):")
 
     # Detect if this is a raspberry pi and if so enable the RaspberryPi plugin
-    
+
     with open('/etc/malaria/config.json', 'wt') as f:
         f.write(json.dumps(config, indent=4, sortkeys=True))
 
