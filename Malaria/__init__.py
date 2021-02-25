@@ -136,15 +136,15 @@ class Malaria:
         name = name.replace(' ', '_')
         ha_sensor = {
             "device": {
-                "identifiers": ["malaria-" + self.config['name']],
+                "identifiers": [self.config['name']],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": "malaria-" + self.config['name']
+                "name": self.config['name']
             },
             "device_class": device_class,
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
-            "unique_id": "malaria-" + self.config['name'] + '-' + name,
+            "unique_id": self.config['name'] + '-' + name,
             "unit_of_measurement": units,
             "value_template": value_template,
             "platform": "mqtt"
