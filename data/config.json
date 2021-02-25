@@ -1,4 +1,5 @@
 {
+    "name": "mysystem",
     "log_file": "/var/log/malaria.log",
     "update_interval": 10,
     "mosquitto": {

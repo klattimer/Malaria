@@ -108,7 +108,7 @@ class Malaria:
             subtopic = subtopic[:-1]
 
         topics = subtopic.split('/')
-        if topics[-1] == "temperature" or (topics[-2] == "temperature" and topics[-1] == "current"):
+        if len(topics) > 1 and topics[-1] == "temperature" or ( len(topics) > 2 and topics[-2] == "temperature" and topics[-1] == "current"):
             key = topics[topics.index("temperature") - 1] + ' temperature'
             self.register_homeassistant_sensor(subtopic, "temperature", key, "\u00b0C", "float")
         self.report_queue.put((self.base_topic + '/' + subtopic, value))
