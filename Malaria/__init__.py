@@ -80,6 +80,7 @@ class Malaria:
                     logging.exception("Plugin failed to load: \"%s\"" % name)
 
     def run(self):
+        self.client.connect(self.host, self.port, 60)
         for p, pkwargs in self.config['plugins'].items():
             if pkwargs['enabled'] is not True:
                 continue
@@ -92,7 +93,6 @@ class Malaria:
         if self.username and self.password:
             self.client.username_pw_set(self.username, self.password)
 
-        self.client.connect(self.host, self.port, 60)
         self.client.loop_start()
 
         while self.running is True:
