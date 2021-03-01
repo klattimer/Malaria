@@ -132,7 +132,6 @@ class Malaria:
         else:
             value_template = "{{ value }}"
 
-        name = name.replace(' ', '_')
         ha_sensor = {
             "device": {
                 "identifiers": [self.config['name']],
@@ -152,7 +151,7 @@ class Malaria:
         if icon is not None:
             ha_sensor["icon"] = icon
 
-        ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'].replace('/', '_'), ha_sensor['unique_id'].replace('/', '_'))
+        ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'].replace('/', '_').replace(' ', '_'), ha_sensor['unique_id'].replace('/', '_').replace(' ', '_'))
         self.client.publish(ha_topic, json.dumps(ha_sensor))
 
     def register_homeassistant_trigger(self, topic, device_class, name, units, value_type):

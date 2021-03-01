@@ -11,7 +11,7 @@ class CPU(MalariaPlugin):
             self.malaria.register_homeassistant_sensor(
                 'CPU/core%d/percent' % i,
                 None,
-                'Core ' + str(i),
+                'CPU Core ' + str(i) + ' usage',
                 "%",
                 "float",
                 "mdi:chip"
