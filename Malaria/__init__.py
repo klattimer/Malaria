@@ -80,6 +80,9 @@ class Malaria:
                     logging.exception("Plugin failed to load: \"%s\"" % name)
 
     def run(self):
+        self.client = mqtt.Client()
+        if self.username and self.password:
+            self.client.username_pw_set(self.username, self.password)
         self.client.connect(self.host, self.port, 60)
         for p, pkwargs in self.config['plugins'].items():
             if pkwargs['enabled'] is not True:
@@ -88,10 +91,6 @@ class Malaria:
                 self.plugins.append(self.plugin_classes[p](self, **pkwargs))
             except:
                 logging.exception("Failed to start plugin: " + p)
-
-        self.client = mqtt.Client()
-        if self.username and self.password:
-            self.client.username_pw_set(self.username, self.password)
 
         self.client.loop_start()
 
