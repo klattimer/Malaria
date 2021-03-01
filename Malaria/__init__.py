@@ -125,7 +125,7 @@ class Malaria:
             self.report_queue.task_done()
         self.report_queue.join()
 
-    def register_homeassistant_sensor(self, topic, device_class, name, units, value_type):
+    def register_homeassistant_sensor(self, topic, device_class, name, units, value_type, icon=None):
         if value_type == "float":
             value_template = "{{ value|float|round(2) }}"
         elif value_type == "int":
@@ -141,7 +141,6 @@ class Malaria:
                 "model": 'malaria-' + MALARIA_VERSION,
                 "name": self.config['name']
             },
-            "device_class": device_class,
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
             "unique_id": self.config['name'] + '-' + name,
@@ -149,6 +148,10 @@ class Malaria:
             "value_template": value_template,
             "platform": "mqtt"
         }
+        if device_class is not None:
+            ha_sensor["device_class"] = device_class
+        if icon is not None:
+            ha_sensor["device"]["icon"] = icon
 
         ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'], ha_sensor['unique_id'])
         self.client.publish(ha_topic, json.dumps(ha_sensor))

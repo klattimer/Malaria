@@ -5,6 +5,17 @@ import psutil
 class CPU(MalariaPlugin):
     def __init__(self, malaria, **kwargs):
         super(CPU, self).__init__(malaria, **kwargs)
+        cpu_percent = psutil.cpu_percent(interval=1, percpu=True)
+
+        for i in cpu_percent:
+            self.malaria.register_homeassistant_sensor(
+                'CPU/core%d/percent' % i,
+                None,
+                'Core ' + str(i),
+                "%",
+                "float",
+                "mdi:chip"
+            )
 
     def update(self):
         cpu_percent = psutil.cpu_percent(interval=1, percpu=True)
