@@ -150,7 +150,7 @@ class Malaria:
         if device_class is not None:
             ha_sensor["device_class"] = device_class
         if icon is not None:
-            ha_sensor["device"]["icon"] = icon
+            ha_sensor["icon"] = icon
 
         ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'], ha_sensor['unique_id'])
         self.client.publish(ha_topic, json.dumps(ha_sensor))
