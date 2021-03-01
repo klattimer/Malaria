@@ -7,7 +7,7 @@ class CPU(MalariaPlugin):
         super(CPU, self).__init__(malaria, **kwargs)
         cpu_percent = psutil.cpu_percent(interval=1, percpu=True)
 
-        for i,v in enumerate(cpu_percent):
+        for i, v in enumerate(cpu_percent):
             self.malaria.register_homeassistant_sensor(
                 'CPU/core%d/percent' % i,
                 None,

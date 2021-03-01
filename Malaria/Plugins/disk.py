@@ -86,21 +86,22 @@ class Disks(MalariaPlugin):
                 mp = devices[d]['mountpoint']
                 u = diskusage[mp]
                 devices[d].update(u._asdict())
+                ha_topic = '/'.join([
+                    self.__class__.__name__,
+                    'partitions',
+                    d[1:],
+                    'percent'
+                ])
+                self.malaria.register_homeassistant_sensor(
+                    ha_topic,
+                    None,
+                    devices[d]['mountpoint'] + ' used',
+                    "%",
+                    "float",
+                    "mdi:chart-pie"
+                )
             devices[d]['size'] = int(devices[d]['size'])
-            ha_topic = '/'.join([
-                self.__class__.__name__,
-                'partitions',
-                d[1:],
-                'percent'
-            ])
-            self.malaria.register_homeassistant_sensor(
-                ha_topic,
-                None,
-                d[1:].split('/')[1] + '_used',
-                "%",
-                "float",
-                "mdi:chart-pie"
-            )
+
 
         data = {
             "partitions": devices,
