@@ -95,13 +95,12 @@ class Disks(MalariaPlugin):
                 self.malaria.register_homeassistant_sensor(
                     ha_topic,
                     None,
-                    devices[d]['mountpoint'] + ' used',
+                    devices[d]['mountpoint'].replace('/', '_') + ' used',
                     "%",
                     "float",
                     "mdi:chart-pie"
                 )
             devices[d]['size'] = int(devices[d]['size'])
-
 
         data = {
             "partitions": devices,
