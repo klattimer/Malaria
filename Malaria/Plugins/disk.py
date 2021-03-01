@@ -95,7 +95,7 @@ class Disks(MalariaPlugin):
                 self.malaria.register_homeassistant_sensor(
                     ha_topic,
                     None,
-                    devices[d]['mountpoint'].replace('/', '_') + ' used',
+                    devices[d]['mountpoint'] + ' used',
                     "%",
                     "float",
                     "mdi:chart-pie"
