@@ -34,6 +34,23 @@ class Network(MalariaPlugin):
             data['io']['download_speed'] = bps_in
             data['io']['upload_speed'] = bps_out
 
+            self.malaria.register_homeassistant_sensor(
+                'Network/traffic/download_speed',
+                None,
+                'Total Download Speed',
+                "bps",
+                "int",
+                "mdi:download-network"
+            )
+            self.malaria.register_homeassistant_sensor(
+                'Network/traffic/upload_speed',
+                None,
+                'Total Upload Speed',
+                "bps",
+                "int",
+                "mdi:upload-network"
+            )
+
         self._last_in = bytes_in
         self._last_out = bytes_out
         self._last_timestamp = now
