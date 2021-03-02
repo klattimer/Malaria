@@ -24,8 +24,8 @@ class Network(MalariaPlugin):
         bytes_out = 0
         for d in data['io'].keys():
             if d == 'lo': continue
-            bytes_in += data['io'][d]['bytes_recv']
-            bytes_out += data['io'][d]['bytes_sent']
+            bytes_in += data['io'][d].bytes_recv
+            bytes_out += data['io'][d].bytes_sent
 
         if self._last_timestamp is not None:
             duration = now - self._last_timestamp
