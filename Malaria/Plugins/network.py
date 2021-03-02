@@ -35,7 +35,7 @@ class Network(MalariaPlugin):
             data['io']['upload_speed'] = bps_out
 
             self.malaria.register_homeassistant_sensor(
-                'Network/traffic/download_speed',
+                'Network/io/download_speed',
                 None,
                 'Total Download Speed',
                 "bps",
@@ -43,7 +43,7 @@ class Network(MalariaPlugin):
                 "mdi:download-network"
             )
             self.malaria.register_homeassistant_sensor(
-                'Network/traffic/upload_speed',
+                'Network/io/upload_speed',
                 None,
                 'Total Upload Speed',
                 "bps",
