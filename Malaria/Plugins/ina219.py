@@ -75,6 +75,42 @@ class INA219(MalariaPlugin):
         self._power_lsb = 0
         self.set_calibration_32V_2A()
 
+        self.malaria.register_homeassistant_sensor(
+            'UPS/Waveshare/battery_percent',
+            'battery',
+            'Battery',
+            "%",
+            "float"
+        )
+        self.malaria.register_homeassistant_sensor(
+            'UPS/Waveshare/power',
+            'power',
+            'Power',
+            "W",
+            "float"
+        )
+        self.malaria.register_homeassistant_sensor(
+            'UPS/Waveshare/current',
+            'current',
+            'Current',
+            "A",
+            "float"
+        )
+        self.malaria.register_homeassistant_sensor(
+            'UPS/Waveshare/psu_voltage',
+            'voltage',
+            'Voltage',
+            "V",
+            "float"
+        )
+        self.malaria.register_homeassistant_sensor(
+            'UPS/Waveshare/load',
+            'voltage',
+            'Bus Voltage',
+            "V",
+            "float"
+        )
+
     def read(self, address):
         data = self.bus.read_i2c_block_data(self.addr, address, 2)
         return ((data[0] * 256) + data[1])
