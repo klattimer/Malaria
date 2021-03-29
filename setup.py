@@ -32,7 +32,8 @@ setup(
         'mdstat',
         'zeroconf',
         'smbus',
-        'uptime'
+        'uptime',
+        'nesteddictionary'
     ],
     data_files=[
         ('data/', ['data/malaria.service']),
