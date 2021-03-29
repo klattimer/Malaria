@@ -29,7 +29,7 @@ class NVidia(MalariaPlugin):
         h_parse = re.compile('^(\s+)(.*)')
         accumulator = {}
         with_units = {}
-        path = ['root']
+        path = [self.__class__.__name__]
         # Parse the lines shifting the path as we go
         for line in lines:
             line = '    ' + line
@@ -44,12 +44,12 @@ class NVidia(MalariaPlugin):
                 # Move units into the key name
                 for unit in units.keys():
                     if value.endswith(unit):
-                        key += ' (' + units[unit] + ')'
                         value = value.replace(unit, '').strip()
                         with_units[key] = {
                             'path': p,
                             'unit': units[unit]
                         }
+                        key += ' (' + units[unit] + ')'
                 accumulator[p] = value
             except:
                 try:
@@ -63,23 +63,23 @@ class NVidia(MalariaPlugin):
                     if header.startswith('Process ID') and path[-1] != 'Processes':
                         k, v = header.split(':')
                         header = 'Processes/' + v.strip()
-                    
+
                     if len(header.strip()) > 0:
                         path.append(header)
                 except:
                     continue
         # Convert the paths into a nested dictionary for reporting
-        n = NestedDict({'root': {}})
+        n = NestedDict({self.__class__.__name__: {}})
         for k, v in accumulator.items():
             if v == 'N/A': continue
             n.insert(k.split('/'), v)
 
-        data = n.unnest()['root']
+        data = n.unnest()[self.__class__.__name__]
         for k in with_units.keys():
             self.malaria.register_homeassistant_sensor(
                 with_units[k]['path'],
                 None,
-                k.replace('(', '').replace(')', ''),
+                k,
                 with_units[k]['unit'],
                 'float',
                 'mdi:gpu'
