@@ -56,12 +56,14 @@ class NVidia(MalariaPlugin):
                     (i_str, header) = h_parse.findall(line)[0]
                     if (len(i_str) / 4) < len(path):
                         path = path[:-1]
+
                     if header.startswith('GPU') and path[-1] != 'GPUs':
-                        path.append('GPUs')
+                        header = 'GPUs/' + header
+
                     if header.startswith('Process ID') and path[-1] != 'Processes':
-                        path.append('Processes')
                         k, v = header.split(':')
-                        header = v.strip()
+                        header = 'Processes/' + v.strip()
+                    
                     if len(header.strip()) > 0:
                         path.append(header)
                 except:
@@ -77,7 +79,7 @@ class NVidia(MalariaPlugin):
             self.malaria.register_homeassistant_sensor(
                 with_units[k]['path'],
                 None,
-                k,
+                k.replace('(', '').replace(')', ''),
                 with_units[k]['unit'],
                 'float',
                 'mdi:gpu'
