@@ -11,7 +11,7 @@ class NVidia(MalariaPlugin):
         self.h_parse = re.compile('^(\s+)(.*)')
 
     def update(self):
-        sp = subprocess.Popen(['nvidia-smi', '-q'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        sp = subprocess.Popen(['nvidia-smi', '-q'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
         data = self.parse(sp.communicate()[0])
         self.report_data(data)
 
