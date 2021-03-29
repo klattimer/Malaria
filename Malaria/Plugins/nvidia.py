@@ -13,7 +13,7 @@ class NVidia(MalariaPlugin):
     def update(self):
         sp = subprocess.Popen(['nvidia-smi', '-q'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
         data = self.parse(sp.communicate()[0])
-        self.report_data(data)
+        self.report_data(data, True)
 
     def parse(self, smistr):
         lines = smistr.split('\n')
@@ -44,4 +44,4 @@ class NVidia(MalariaPlugin):
             if v == 'N/A': continue
             n.insert(k.split('/'), v)
 
-        return n.unnest()
+        return n.unnest()['root']
