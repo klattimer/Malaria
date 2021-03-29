@@ -31,12 +31,4 @@ class LoadAvereage(MalariaPlugin):
         )
 
     def update(self):
-        self.malaria.register_homeassistant_sensor(
-            'LoadAvereage/1',
-            None,
-            'CPU Load (1 min)',
-            '%',
-            'float',
-            'mdi:chip'
-        )
         self.report_data(dict(zip([1, 5, 15], os.getloadavg())), True)
