@@ -4,11 +4,26 @@ import re
 from nesteddictionary import NestedDict
 
 units = {
-    '%': '%',
-    'MiB': 'MiB',
-    'MHz': 'Mhz',
-    ' C': "\u00b0C",
-    'KB/s': 'KB/s'
+    '%': {
+        'display': '%',
+        'icon': 'mdi:chip'
+    },
+    'MiB':  {
+        'display': 'MiB',
+        'icon': 'mdi:memory'
+    },
+    'MHz': {
+        'display': 'Mhz',
+        'icon': 'mdi:speedometer'
+    },
+    ' C': {
+        'display': "\u00b0C",
+        'icon': 'mdi:thermometer'
+    },
+    'KB/s': {
+        'display': 'KB/s',
+        'icon': 'mdi:speedometer'
+    }
 }
 
 
@@ -42,14 +57,14 @@ class NVidia(MalariaPlugin):
                 p = '/'.join(path) + '/' + key
 
                 # Move units into the key name
-                for unit in units.keys():
+                for unit, unitspec in units.items():
                     if value.endswith(unit):
                         value = value.replace(unit, '').strip()
                         with_units[key] = {
                             'path': p,
-                            'unit': units[unit]
+                            'unit': unitspec
                         }
-                        key += ' (' + units[unit] + ')'
+                        key += ' (' + unitspec['display'] + ')'
                 accumulator[p] = value
             except:
                 try:
@@ -80,8 +95,8 @@ class NVidia(MalariaPlugin):
                 with_units[k]['path'],
                 None,
                 k,
-                with_units[k]['unit'],
+                with_units[k]['unit']['display'],
                 'float',
-                'mdi:gpu'
+                with_units[k]['unit']['icon']
             )
         return data
