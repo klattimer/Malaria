@@ -11,6 +11,16 @@ class Network(MalariaPlugin):
         self._last_in = 0
         self._last_out = 0
 
+        ha_topic = '/'.join([
+            self.__class__.__name__,
+            'online'
+        ])
+        self.malaria.register_homeassistant_binary_sensor(
+            ha_topic,
+            None,
+            'online'
+        )
+
     def update(self):
         psutil.net_io_counters(pernic=True)
         data = {
