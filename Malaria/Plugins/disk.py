@@ -46,22 +46,22 @@ class Disks(MalariaPlugin):
                 for disk in md['devices'][array]['disks'].keys():
                     disks.append(''.join(i for i in disk if not i.isdigit()))
 
-                ha_topic = '/'.join([
-                    self.__class__.__name__,
-                    'mdstat',
-                    'devices',
-                    array,
-                    'disks',
-                    disk,
-                    'faulty'
-                ])
-                self.malaria.register_homeassistant_binary_sensor(
-                    ha_topic,
-                    None,
-                    disk + ' faulty',
-                    "",
-                    "float"
-                )
+                    ha_topic = '/'.join([
+                        self.__class__.__name__,
+                        'mdstat',
+                        'devices',
+                        array,
+                        'disks',
+                        disk,
+                        'faulty'
+                    ])
+                    self.malaria.register_homeassistant_binary_sensor(
+                        ha_topic,
+                        None,
+                        disk + ' faulty',
+                        "",
+                        "float"
+                    )
         except:
             md = {}
 
