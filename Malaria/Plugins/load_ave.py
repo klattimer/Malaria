@@ -6,7 +6,7 @@ class LoadAvereage(MalariaPlugin):
     def __init__(self, malaria, **kwargs):
         super(LoadAvereage, self).__init__(malaria, **kwargs)
         self.malaria.register_homeassistant_sensor(
-            'LoadAvereage/1',
+            'LoadAverage/1',
             None,
             'CPU Load (1 min)',
             '%',
@@ -14,7 +14,7 @@ class LoadAvereage(MalariaPlugin):
             'mdi:chip'
         )
         self.malaria.register_homeassistant_sensor(
-            'LoadAvereage/5',
+            'LoadAverage/5',
             None,
             'CPU Load (5 min)',
             '%',
@@ -22,7 +22,7 @@ class LoadAvereage(MalariaPlugin):
             'mdi:chip'
         )
         self.malaria.register_homeassistant_sensor(
-            'LoadAvereage/15',
+            'LoadAverage/15',
             None,
             'CPU Load (15 min)',
             '%',
