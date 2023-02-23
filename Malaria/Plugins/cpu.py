@@ -32,6 +32,8 @@ class CPU(MalariaPlugin):
                 with open(filename) as f:
                     freq = int(f.read())
                     cpu_frequency.append(float(freq))
+        else:
+            cpu_frequency = [v['current'] for v in cpu_frequency]
 
         t = psutil.sensors_temperatures()
         if 'coretemp' in t.keys():
@@ -48,6 +50,10 @@ class CPU(MalariaPlugin):
             temperatures = [-1 for x in range(len(cpu_percent))]
 
         data = {}
+
+        for core, t in enumerate(temperatures):
+            if type(t) == dict:
+                temperatures[core] = t['current']
 
         for core, percent in enumerate(cpu_percent):
             cpu_data = {

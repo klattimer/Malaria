@@ -13,6 +13,11 @@ from .Plugins import MalariaPlugin
 
 MALARIA_VERSION = '0.1'
 
+def clean_topic(topic):
+    topic = topic.lower()
+    topic = topic.replace('/', '_')
+    topic = topic.replace(' ', '_')
+    return topic
 
 class Malaria:
     def __init__(self, **kwargs):
@@ -96,7 +101,7 @@ class Malaria:
 
         while self.running is True:
             self.update()
-            time.sleep(self.config['update_interval'])
+            time.sleep(1)
             self.drain()
 
     def report_reading(self, subtopic, value):
@@ -153,11 +158,11 @@ class Malaria:
         if icon is not None:
             ha_sensor["icon"] = icon
 
-        ha_topic = "homeassistant/sensor/%s/%s/config" % (ha_sensor['device']['name'].replace('/', '_').replace(' ', '_'), ha_sensor['unique_id'].replace('/', '_').replace(' ', '_'))
-        self.client.publish(ha_topic, json.dumps(ha_sensor))
+        ha_topic = "homeassistant/sensor/%s/%s/config" %  (ha_sensor['device']['name'], ha_sensor['unique_id'])
+        self.client.publish(clean_topic(ha_topic), json.dumps(ha_sensor))
 
     def register_homeassistant_trigger(self, topic, device_class, name, units, value_type, icon=None):
-        name = self.config['name'] + '-' + name
+        name = self.config['name'] + ' ' + name
         ha_trigger = {
             "automation_type": "trigger",
             "topic": self.base_topic + '/' + topic,
@@ -175,8 +180,8 @@ class Malaria:
         }
         if icon is not None:
             ha_trigger["icon"] = icon
-        ha_topic = "homeassistant/device_automation/%s/%s/config" % (ha_trigger['device']['name'].replace('/', '_').replace(' ', '_'), ha_trigger['unique_id'].replace('/', '_').replace(' ', '_'))
-        self.client.publish(ha_topic, json.dumps(ha_trigger))
+        ha_topic = "homeassistant/device_automation/%s/%s/config" % (ha_trigger['device']['name'], ha_trigger['unique_id'])
+        self.client.publish(clean_topic(ha_topic), json.dumps(ha_trigger))
 
     def register_homeassistant_binary_sensor(self, topic, device_class, name, icon=None):
         name = self.config['name'] + '-' + name
@@ -190,18 +195,20 @@ class Malaria:
             "device_class": device_class,
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
+            "state_class": "measurement",
             "unique_id": name,
             "platform": "mqtt"
         }
         if icon is not None:
             ha_binary_sensor["icon"] = icon
-        ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (ha_binary_sensor['device']['name'].replace('/', '_').replace(' ', '_'), ha_binary_sensor['unique_id'].replace('/', '_').replace(' ', '_'))
+        ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (ha_binary_sensor['device']['name'], ha_binary_sensor['unique_id'])
 
-        self.client.publish(ha_topic, json.dumps(ha_binary_sensor))
+        self.client.publish(clean_topic(ha_topic), json.dumps(ha_binary_sensor))
 
     def update(self):
         for plugin in self.plugins:
-            threading.Thread(target=plugin.update).start()
+            if plugin.do_update():
+                threading.Thread(target=plugin.update).start()
 
 
 def main():

@@ -1,9 +1,11 @@
 import re
+from datetime import datetime, timedelta
 
 
 class MalariaPlugin():
     __topic__ = None
     __always_report__ = []
+    __interval__ = 60
 
     @classmethod
     def is_available(cls):
@@ -15,10 +17,23 @@ class MalariaPlugin():
     def __init__(self, malaria, **kwargs):
         self.malaria = malaria
         self.last_report = {}
+        self.last_update = None
+        self.last_always = None
         self.patterns = []
         for pattern in self.__always_report__:
             p = re.compile(pattern)
             self.patterns.append(p)
+
+    def do_update(self):
+        if self.last_update is None:
+            self.last_update = datetime.now()
+            return True
+
+        if self.last_update < datetime.now() - timedelta(seconds=self.__interval__):
+            self.last_update = datetime.now()
+            return True
+        return False
+
 
     def update(self):
         """
@@ -59,6 +74,9 @@ class MalariaPlugin():
                 } if is_flattenable(dd) else {prefix: dd}
 
     def report_data(self, data_dictionary, always=False):
+        if self.last_always is None or self.last_always < datetime.now() - (60 * 60):
+            always = True
+            self.last_always = datetime.now()
         data_dictionary = self.flatten(data_dictionary)
         for k, v in data_dictionary.items():
             do_report = always
