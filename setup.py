@@ -33,7 +33,9 @@ setup(
         'zeroconf',
         'smbus',
         'uptime',
-        'nesteddictionary'
+        'nesteddictionary',
+        'pySMART',
+        'getmac'
     ],
     data_files=[
         ('data/', ['data/malaria.service']),

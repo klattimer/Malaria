@@ -3,6 +3,7 @@ import importlib
 import logging
 import inspect
 import paho.mqtt.client as mqtt
+from getmac import get_mac_address
 import time
 import json
 import sys
@@ -48,6 +49,7 @@ class Malaria:
         self.plugins = []
         self.report_queue = Queue()
         self.running = True
+        self.mac_address = get_mac_address()
 
         p = os.path.dirname(os.path.abspath(__file__))
         p = os.path.join(p, "Plugins")
@@ -140,10 +142,10 @@ class Malaria:
 
         ha_sensor = {
             "device": {
-                "identifiers": [self.config['name']],
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": self.config['name']
+                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
             },
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
@@ -171,10 +173,10 @@ class Malaria:
             "payload": "Button0",
             "unique_id": name,
             "device": {
-                "identifiers": [self.config['name']],
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": self.config['name']
+                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
             },
             "platform": "mqtt"
         }
@@ -187,7 +189,7 @@ class Malaria:
         name = self.config['name'] + '-' + name
         ha_binary_sensor = {
             "device": {
-                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name']],
+                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
                 "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
