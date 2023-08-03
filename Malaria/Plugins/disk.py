@@ -103,7 +103,7 @@ class Disks(MalariaPlugin):
             if d in partitions.keys():
                 partition_data = partitions[d]._asdict()
                 devices[d].update(partition_data)
-            if devices[d]['mountpoint'] in diskusage.keys():
+            if devices[d].get('mountpoint') and devices[d]['mountpoint'] in diskusage.keys():
                 mp = devices[d]['mountpoint']
                 u = diskusage[mp]
                 devices[d].update(u._asdict())
