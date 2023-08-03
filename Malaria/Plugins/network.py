@@ -27,7 +27,7 @@ class Network(MalariaPlugin):
             "addresses": psutil.net_if_addrs(),
             "io": psutil.net_io_counters(pernic=True, nowrap=True),
             "stats": psutil.net_if_stats(),
-            "online": True if os.system("ping -c 1 8.8.4.4") is 0 else False
+            "online": True if os.system("ping -c 1 8.8.4.4 > /dev/null") is 0 else False
         }
         now = time.time()
         bytes_in = 0
