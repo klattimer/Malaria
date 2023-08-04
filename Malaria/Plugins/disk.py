@@ -67,7 +67,8 @@ class Disks(MalariaPlugin):
                         '',
                         'boolean'
                     )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             md = {}
 
         disks = list(set(disks))
@@ -86,12 +87,14 @@ class Disks(MalariaPlugin):
         try:
             blk_info = self.get_blk_info()
             devices = collect(blk_info['blockdevices'])
-        except:
+        except Exception as e:
+            logging.error(str(e))
             devices = []
 
         try:
             drives = {'/dev/' + dev['name']: dev for dev in blk_info['blockdevices'] if dev['name'] in disks}
-        except:
+        except Exception as e:
+            logging.error(str(e))
             drives = {}
         for d in drives.keys():
             if d in temperatures.keys():
