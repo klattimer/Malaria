@@ -64,6 +64,7 @@ class Disks(MalariaPlugin):
                         ha_topic,
                         None,
                         disks[-1] + ' faulty',
+                        '',
                         'boolean'
                     )
         except:
