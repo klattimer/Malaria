@@ -15,7 +15,7 @@ class Disks(MalariaPlugin):
 
     def get_hdd_temp(self, hdd):
         try:
-            for line in subprocess.Popen([b'sudo', b'smartctl', b'-a', bytes('/dev/' + hdd, encoding='utf8')], stdout=subprocess.PIPE).stdout.read().split(b'\n'):
+            for line in subprocess.Popen([b'smartctl', b'-a', bytes('/dev/' + hdd, encoding='utf8')], stdout=subprocess.PIPE).stdout.read().split(b'\n'):
                 if (b'Temperature_Celsius' in line.split()) or (b'Temperature_Internal' in line.split()):
                     return int(line.split()[9])
         except:
