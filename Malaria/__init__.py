@@ -22,7 +22,7 @@ def clean_topic(topic):
 
 class Malaria:
     def __init__(self, **kwargs):
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.INFO)
         logging.info("Starting Malaria")
         self.config = {}
         try:

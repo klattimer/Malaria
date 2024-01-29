@@ -26,11 +26,11 @@ class MalariaPlugin():
 
     def do_update(self):
         if self.last_update is None:
-            self.last_update = datetime.now()
+            self.last_update = datetime.now().timestamp()
             return True
 
-        if self.last_update < datetime.now() - timedelta(seconds=self.__interval__):
-            self.last_update = datetime.now()
+        if self.last_update < datetime.now().timestamp() - self.__interval__:
+            self.last_update = datetime.now().timestamp()
             return True
         return False
 
@@ -74,9 +74,9 @@ class MalariaPlugin():
                 } if is_flattenable(dd) else {prefix: dd}
 
     def report_data(self, data_dictionary, always=False):
-        if self.last_always is None or self.last_always < datetime.now() - (60 * 60):
+        if self.last_always is None or self.last_always < datetime.now().timestamp() - (60 * 60):
             always = True
-            self.last_always = datetime.now()
+            self.last_always = datetime.now().timestamp()
         data_dictionary = self.flatten(data_dictionary)
         for k, v in data_dictionary.items():
             do_report = always

@@ -15,7 +15,7 @@ class Disks(MalariaPlugin):
 
     def get_hdd_temp(self, hdd):
         try:
-            for line in subprocess.Popen([b'sudo', b'smartctl', b'-a', bytes('/dev/' + hdd, encoding='utf8')], stdout=subprocess.PIPE).stdout.read().split(b'\n'):
+            for line in subprocess.Popen([b'smartctl', b'-a', bytes('/dev/' + hdd, encoding='utf8')], stdout=subprocess.PIPE).stdout.read().split(b'\n'):
                 if (b'Temperature_Celsius' in line.split()) or (b'Temperature_Internal' in line.split()):
                     return int(line.split()[9])
         except:
@@ -64,9 +64,11 @@ class Disks(MalariaPlugin):
                         ha_topic,
                         None,
                         disks[-1] + ' faulty',
+                        '',
                         'boolean'
                     )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             md = {}
 
         disks = list(set(disks))
@@ -85,12 +87,14 @@ class Disks(MalariaPlugin):
         try:
             blk_info = self.get_blk_info()
             devices = collect(blk_info['blockdevices'])
-        except:
+        except Exception as e:
+            logging.error(str(e))
             devices = []
 
         try:
             drives = {'/dev/' + dev['name']: dev for dev in blk_info['blockdevices'] if dev['name'] in disks}
-        except:
+        except Exception as e:
+            logging.error(str(e))
             drives = {}
         for d in drives.keys():
             if d in temperatures.keys():
@@ -103,7 +107,7 @@ class Disks(MalariaPlugin):
             if d in partitions.keys():
                 partition_data = partitions[d]._asdict()
                 devices[d].update(partition_data)
-            if devices[d]['mountpoint'] in diskusage.keys():
+            if devices[d].get('mountpoint') and devices[d]['mountpoint'] in diskusage.keys():
                 mp = devices[d]['mountpoint']
                 u = diskusage[mp]
                 devices[d].update(u._asdict())
