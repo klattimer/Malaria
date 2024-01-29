@@ -20,7 +20,7 @@ class Docker(MalariaPlugin):
             self.malaria.register_homeassistant_sensor(
                 ha_topic,
                 None,
-                f"Container {c.name} status"
+                f"Container {c.name} status",
                 '',
                 'string'
             )
