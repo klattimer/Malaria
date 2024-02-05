@@ -3,6 +3,6 @@ relative_links:
   enabled: true
   collections: true
 include:
-  docs/Architecture.md
-  docs/WritingPlugins.md
-  docs/License.md
+  - docs/Architecture.md
+  - docs/WritingPlugins.md
+  - docs/License.md
