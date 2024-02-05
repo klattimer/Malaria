@@ -25,6 +25,15 @@ types of data collection would have gaps, and hit performance un-necessarily.
  - Monitor online/offline and network connections
  - Monitor system load average
  - Monitor system users
+ - Monitor data on docker containers
+ - Monitor nvidia graphics data
+
+## Documentation
+
+- [Architecture](docs/Architecture.md)
+- [Writing Plugins](docs/WritingPlugins.md)
+- [Code of Conduct](docs/code_of_conduct.md)
+- [License](docs/License.md)
 
 ## Installation
 
@@ -77,13 +86,6 @@ which used i2c_bus 0 rather than 1 like the newer Pis.
 }
 ```
 
-
-## Contributions
-
 All contributions will be considered, useful ones which are clear and concise will likely
 get accepted quickly.
 
-- [Architecture](docs/Architecture.md)
-- [Writing Plugins](docs/WritingPlugins.md)
-- [Code of Conduct](docs/code_of_conduct.md)
-- [License](docs/License.md)
