@@ -8,3 +8,5 @@ include:
   - docs/Architecture.md
   - docs/WritingPlugins.md
   - docs/License.md
+title: Malaria
+description: An MQTT System Statistics Reporter
