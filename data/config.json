@@ -22,6 +22,9 @@
         "DiskIO": {
             "enabled": true
         },
+        "Docker": {
+            "enabled": false
+        },
         "INA219": {
             "enabled": false,
             "addr": 66
