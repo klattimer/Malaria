@@ -83,7 +83,7 @@ which used i2c_bus 0 rather than 1 like the newer Pis.
 All contributions will be considered, useful ones which are clear and concise will likely
 get accepted quickly.
 
-- (Architecture)[./docs/Architecture.md]
-- (Writing Plugins)[./docs/WritingPlugins.md]
-- (Code of Conduct)[./docs/code_of_conduct.md]
-- (License)[./docs/License.md]
+- [Architecture](docs/Architecture.md]
+- [Writing Plugins](docs/WritingPlugins.md]
+- [Code of Conduct](docs/code_of_conduct.md]
+- [License](docs/License.md]
