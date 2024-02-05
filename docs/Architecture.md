@@ -14,6 +14,5 @@ Most of this code is found in ```__init__.py```, the interface which plugins use
 and there you'll also find a bunch of example plugins which more-or-less cover the majority of cases.
 
 
-(Writing Plugins)[WritingPlugins.md]
-
-(License)[License.md]
+ - [Writing Plugins](WritingPlugins.md)
+ - [License](License.md)
