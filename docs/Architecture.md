@@ -13,7 +13,6 @@ the topics and values for publication to the mosquitto server.
 Most of this code is found in ```__init__.py```, the interface which plugins use is found in ```Plugins/__init__.py```
 and there you'll also find a bunch of example plugins which more-or-less cover the majority of cases.
 
-
-(Writing Plugins)[WritingPlugins.md]
-
-(License)[License.md]
+ - [Home](../)
+ - [Writing Plugins](WritingPlugins.md)
+ - [License](License.md)

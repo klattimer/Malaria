@@ -71,3 +71,5 @@ structure where it can be made use of. Limited complexity, focused scope are the
 If you feel you want to dump larger amounts of data, or larger structures it might be an idea to
 break things down into multiple plugins where it makes sense to do so. Remember however, that sometimes
 running the same process multiple times in multiple plugins will endure a cost.
+
+ - [Home](../)

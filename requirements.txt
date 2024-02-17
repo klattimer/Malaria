@@ -1,0 +1,9 @@
+paho-mqtt==1.6.1
+psutil==5.9.8
+mdstat==1.0.4
+zeroconf==0.131.0
+smbus==1.1.post2
+uptime==3.0.1
+nesteddictionary==1.2.2
+pySMART==1.3.0
+getmac==0.9.4
