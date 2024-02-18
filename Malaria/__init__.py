@@ -194,7 +194,9 @@ class Malaria:
         ha_topic = "homeassistant/device_automation/%s/%s/config" % (clean_topic(ha_trigger['device']['name']), clean_topic(ha_trigger['unique_id']))
         self.client.publish(ha_topic, json.dumps(ha_trigger))
 
-    def register_homeassistant_binary_sensor(self, topic, device_class, name, icon=None):
+    def register_homeassistant_binary_sensor(self, topic, device_class, name, icon=None, extra=None):
+        if extra is None:
+            extra = {}
         ha_binary_sensor = {
             "device": {
                 "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
@@ -209,6 +211,7 @@ class Malaria:
             "unique_id": name,
             "platform": "mqtt"
         }
+        ha_binary_sensor.update(extra)
         if icon is not None:
             ha_binary_sensor["icon"] = icon
         ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (clean_topic(ha_binary_sensor['device']['name']), clean_topic(ha_binary_sensor['unique_id']))
