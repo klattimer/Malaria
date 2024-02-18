@@ -13,7 +13,7 @@ class Smart(MalariaPlugin):
     def update(self):
         data = {}
         for device in self._devices:
-            if device.name not in self.data.keys():
+            if device.name not in data.keys():
                 data[device.name] = {}
             try:
                 for attribute in device.attributes:
