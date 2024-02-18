@@ -18,6 +18,7 @@ class Smart(MalariaPlugin):
             try:
                 for attribute in device.attributes:
                     data[device.name][attribute.name] = attribute.raw
-            except:
-                pass
+            except Exception as e:
+                print("Attribute error: " + device.name)
+                print(e)
         self.report_data(data, True)
