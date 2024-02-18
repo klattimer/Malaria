@@ -57,13 +57,12 @@ class Disks(MalariaPlugin):
                     ])
                     self.malaria.register_homeassistant_binary_sensor(
                         ha_topic,
-                        None,
+                        "problem",
                         disk.upper() + ' faulty',
                         icon="mdi:harddisk",
                         extra={
                             "payload_on": "True",
-                            "payload_off": "False",
-                            "device_class": "problem"
+                            "payload_off": "False"
                         }
                     ),
         except Exception as e:

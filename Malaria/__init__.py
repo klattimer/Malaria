@@ -217,6 +217,7 @@ class Malaria:
         ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (clean_topic(ha_binary_sensor['device']['name']), clean_topic(ha_binary_sensor['unique_id']))
 
         self.client.publish(ha_topic, json.dumps(ha_binary_sensor))
+        self.register_homeassistant_trigger(topic, device_class, name, None, None, icon)
 
     def update(self):
         for plugin in self.plugins:

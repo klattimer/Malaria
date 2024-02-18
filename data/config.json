@@ -58,6 +58,9 @@
         },
         "Uptime": {
             "enabled": true
+        },
+        "Smart": {
+            "enabled": false
         }
     }
 }
