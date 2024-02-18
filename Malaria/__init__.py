@@ -133,7 +133,6 @@ class Malaria:
         self.report_queue.join()
 
     def register_homeassistant_sensor(self, topic, device_class, name, units, value_type, icon=None):
-        name = self.config['name'] + '-' + name
         if value_type == "float":
             value_template = "{{ value|float|round(2) }}"
         elif value_type == "int":
@@ -146,7 +145,7 @@ class Malaria:
                 "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+                "name": self.config['name']
             },
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
@@ -165,7 +164,6 @@ class Malaria:
         self.client.publish(ha_topic, json.dumps(ha_sensor))
 
     def register_homeassistant_trigger(self, topic, device_class, name, units, value_type, icon=None):
-        name = self.config['name'] + ' ' + name
         ha_trigger = {
             "automation_type": "trigger",
             "topic": self.base_topic + '/' + topic,
@@ -173,11 +171,12 @@ class Malaria:
             "subtype": "button_1",
             "payload": "Button0",
             "unique_id": name,
+            "name": name,
             "device": {
                 "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+                "name": self.config['name']
             },
             "platform": "mqtt"
         }
@@ -187,13 +186,12 @@ class Malaria:
         self.client.publish(ha_topic, json.dumps(ha_trigger))
 
     def register_homeassistant_binary_sensor(self, topic, device_class, name, icon=None):
-        name = self.config['name'] + '-' + name
         ha_binary_sensor = {
             "device": {
                 "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
                 "manufacturer": 'malaria',
                 "model": 'malaria-' + MALARIA_VERSION,
-                "name": "malaria-" + MALARIA_VERSION + '-' + self.config['name']
+                "name": self.config['name']
             },
             "device_class": device_class,
             "name": name,
