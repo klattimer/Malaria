@@ -158,7 +158,7 @@ class Malaria:
             },
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
-            "unique_id": name,
+            "unique_id": self.config['name'] + ' ' + name,
             "value_template": value_template,
             "platform": "mqtt"
         }
@@ -179,7 +179,7 @@ class Malaria:
             "type": "button_short_release",
             "subtype": "button_1",
             "payload": "Button0",
-            "unique_id": name,
+            "unique_id": self.config['name'] + ' ' + name,
             "name": name,
             "device": {
                 "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
@@ -208,7 +208,7 @@ class Malaria:
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
             "state_class": "measurement",
-            "unique_id": name,
+            "unique_id": self.config['name'] + ' ' + name,
             "platform": "mqtt"
         }
         ha_binary_sensor.update(extra)
