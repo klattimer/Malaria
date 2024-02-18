@@ -22,7 +22,8 @@ class Docker(MalariaPlugin):
                 None,
                 f"Container {c.name} status",
                 '',
-                'string'
+                'string',
+                'mdi:docker'
             )
 
     def update(self):
