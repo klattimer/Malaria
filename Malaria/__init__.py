@@ -132,39 +132,22 @@ class Malaria:
             self.report_queue.task_done()
         self.report_queue.join()
 
-    def register_homeassistant_text(self, topic, device_class, name, units, value_type, icon=None):
-        value_template = "{{ value }}"
-
-        ha_text = {
-            "device": {
-                "identifiers": ["malaria-" + MALARIA_VERSION + '-' + self.config['name'], self.mac_address],
-                "manufacturer": 'malaria',
-                "model": 'malaria-' + MALARIA_VERSION,
-                "name": self.config['name']
-            },
-            "name": name,
-            "state_topic": self.base_topic + '/' + topic,
-            "unique_id": name,
-            "unit_of_measurement": units,
-            "state_class": "measurement",
-            "value_template": value_template,
-            "platform": "mqtt"
-        }
-        if device_class is not None:
-            ha_text["device_class"] = device_class
-        if icon is not None:
-            ha_text["icon"] = icon
-
-        ha_topic = "homeassistant/text/%s/%s/config" % (clean_topic(ha_text['device']['name']), clean_topic(ha_text['unique_id']))
-        self.client.publish(ha_topic, json.dumps(ha_text))
-
     def register_homeassistant_sensor(self, topic, device_class, name, units, value_type, icon=None):
         if value_type == "float":
             value_template = "{{ value|float|round(2) }}"
+            extra = {
+                "unit_of_measurement": units,
+                "state_class": "measurement",
+            }
         elif value_type == "int":
             value_template = "{{ value|int }}"
+            extra = {
+                "unit_of_measurement": units,
+                "state_class": "measurement",
+            }
         else:
             value_template = "{{ value }}"
+            extra = {}
 
         ha_sensor = {
             "device": {
@@ -176,11 +159,11 @@ class Malaria:
             "name": name,
             "state_topic": self.base_topic + '/' + topic,
             "unique_id": name,
-            "unit_of_measurement": units,
-            "state_class": "measurement",
             "value_template": value_template,
             "platform": "mqtt"
         }
+        ha_sensor.update(extra)
+
         if device_class is not None:
             ha_sensor["device_class"] = device_class
         if icon is not None:
