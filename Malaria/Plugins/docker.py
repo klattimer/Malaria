@@ -17,7 +17,7 @@ class Docker(MalariaPlugin):
                         c.name
             ])
 
-            self.malaria.register_homeassistant_text(
+            self.malaria.register_homeassistant_sensor(
                 ha_topic,
                 None,
                 f"Container {c.name} status",
