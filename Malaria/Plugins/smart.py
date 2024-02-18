@@ -7,6 +7,7 @@ except:
 
 class Smart(MalariaPlugin):
     def __init__(self, malaria, **kwargs):
+        super(Smart, self).__init__(malaria, **kwargs)
         self._devices = DeviceList()
 
     def update(self):
