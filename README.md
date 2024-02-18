@@ -27,6 +27,7 @@ types of data collection would have gaps, and hit performance un-necessarily.
  - Monitor system users
  - Monitor data on docker containers
  - Monitor nvidia graphics data
+ - [Home Assistant](http://www.home-assistant.io) sensor/binary sensor/trigger auto-configuration.
 
 ## Documentation
 
