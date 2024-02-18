@@ -18,7 +18,13 @@ class Network(MalariaPlugin):
         self.malaria.register_homeassistant_binary_sensor(
             ha_topic,
             None,
-            'online'
+            'online',
+            icon="mdi:network",
+            extra={
+                "payload_on": "True",
+                "payload_off": "False",
+                "device_class": "connectivity"
+            }
         )
 
     def update(self):

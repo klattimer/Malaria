@@ -59,9 +59,11 @@ class Disks(MalariaPlugin):
                         ha_topic,
                         None,
                         disk.upper() + ' faulty',
+                        icon="mdi:harddisk",
                         extra={
                             "payload_on": "True",
-                            "payload_off": "False"
+                            "payload_off": "False",
+                            "device_class": "problem"
                         }
                     ),
         except Exception as e:
