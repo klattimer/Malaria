@@ -52,18 +52,18 @@ class Disks(MalariaPlugin):
                         'devices',
                         array,
                         'disks',
-                        disks[-1],
+                        disk,
                         'faulty'
                     ])
                     self.malaria.register_homeassistant_binary_sensor(
                         ha_topic,
                         None,
-                        disks[-1] + ' faulty'
+                        disk + ' faulty'
                     )
                     self.malaria.register_homeassistant_sensor(
                         ha_topic,
                         None,
-                        disks[-1] + ' faulty',
+                        disk + ' faulty',
                         '',
                         'boolean'
                     )
