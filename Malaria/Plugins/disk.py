@@ -58,14 +58,7 @@ class Disks(MalariaPlugin):
                     self.malaria.register_homeassistant_binary_sensor(
                         ha_topic,
                         None,
-                        disk + ' faulty'
-                    )
-                    self.malaria.register_homeassistant_sensor(
-                        ha_topic,
-                        None,
-                        disk + ' faulty',
-                        '',
-                        'boolean'
+                        disk.upper() + ' faulty'
                     )
         except Exception as e:
             logging.error(str(e))
@@ -132,4 +125,4 @@ class Disks(MalariaPlugin):
             "drives": drives,
             'mdstat': md
         }
-        self.report_data(data)
+        self.report_data(data, True)

@@ -34,4 +34,4 @@ class Docker(MalariaPlugin):
             data['stats'][c.name] = c.stats(stream=False)
             data['status'][c.name] = c.status
 
-        self.report_data(data)
+        self.report_data(data, True)
