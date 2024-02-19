@@ -17,6 +17,7 @@ class Smart(MalariaPlugin):
                 data[device.name] = {}
             try:
                 for attribute in device.attributes:
+                    if attribute is None: continue 
                     data[device.name][attribute.name] = attribute.raw
             except Exception as e:
                 print("Attribute error: " + device.name)
