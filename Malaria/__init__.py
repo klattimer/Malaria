@@ -114,7 +114,6 @@ class Malaria:
                 count = 0
                 for topic, data in self.hass_cache:
                     self.client.publish(topic, data)
-                self.hass_cache = []
 
     def report_reading(self, subtopic, value):
         subtopic = subtopic.replace('//', '/')
