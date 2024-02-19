@@ -27,7 +27,7 @@ class YFinance(MalariaPlugin):
                 None,
                 symbol,
                 '',
-                'string',
+                'float',
                 'mdi:finance'
             )
     
