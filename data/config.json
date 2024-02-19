@@ -61,6 +61,16 @@
         },
         "Smart": {
             "enabled": false
+        },
+        "YFinance": {
+            "enabled": false,
+            "symbols": [
+                "AAPL",
+                "GOOG",
+                "MSFT",
+                "BTC-GBP",
+                "ETH-GBP"
+            ]
         }
     }
 }
