@@ -47,6 +47,7 @@ class Malaria:
         self.password = self.config['mosquitto'].get('password')
 
         self.plugin_classes = {}
+        self.hass_cache = []
         self.plugins = []
         self.report_queue = Queue()
         self.running = True
@@ -102,10 +103,18 @@ class Malaria:
 
         self.client.loop_start()
 
+        count = 0
         while self.running is True:
             self.update()
             time.sleep(1)
             self.drain()
+
+            count += 1
+            if count > 60:
+                count = 0
+                for topic, data in self.hass_cache:
+                    self.client.publish(topic, data)
+                self.hass_cache = []
 
     def report_reading(self, subtopic, value):
         subtopic = subtopic.replace('//', '/')
@@ -171,6 +180,7 @@ class Malaria:
 
         ha_topic = "homeassistant/sensor/%s/%s/config" % (clean_topic(ha_sensor['device']['name']), clean_topic(ha_sensor['unique_id']))
         self.client.publish(ha_topic, json.dumps(ha_sensor))
+        self.hass_cache.append((ha_topic, json.dumps(ha_sensor)))
 
     def register_homeassistant_trigger(self, topic, device_class, name, units, value_type, icon=None):
         ha_trigger = {
@@ -193,6 +203,7 @@ class Malaria:
             ha_trigger["icon"] = icon
         ha_topic = "homeassistant/device_automation/%s/%s/config" % (clean_topic(ha_trigger['device']['name']), clean_topic(ha_trigger['unique_id']))
         self.client.publish(ha_topic, json.dumps(ha_trigger))
+        self.hass_cache.append((ha_topic, json.dumps(ha_trigger)))
 
     def register_homeassistant_binary_sensor(self, topic, device_class, name, icon=None, extra=None):
         if extra is None:
@@ -217,6 +228,7 @@ class Malaria:
         ha_topic = "homeassistant/binary_sensor/%s/%s/config" % (clean_topic(ha_binary_sensor['device']['name']), clean_topic(ha_binary_sensor['unique_id']))
 
         self.client.publish(ha_topic, json.dumps(ha_binary_sensor))
+        self.hass_cache.append((ha_topic, json.dumps(ha_binary_sensor)))
         self.register_homeassistant_trigger(topic, device_class, name, None, None, icon)
 
     def update(self):
