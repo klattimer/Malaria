@@ -17,16 +17,18 @@ types of data collection would have gaps, and hit performance un-necessarily.
 
 ## Features
 
- - Monitor NUT UPSMON
+ - Monitor [NUT UPSMON](https://networkupstools.org)
  - Monitor CPU temperature and usage
  - Monitor disk usage and io
- - Monitor Waveshare UPS backpack for Raspberry Pi
- - Monitor Raspberry Pi internal temperature
+ - Monitor [Waveshare UPS backpack](https://www.waveshare.com/wiki/UPS_HAT) for Raspberry Pi
+ - Monitor [Raspberry Pi](https://www.raspberrypi.org) internal temperature
  - Monitor online/offline and network connections
  - Monitor system load average
  - Monitor system users
- - Monitor data on docker containers
- - Monitor nvidia graphics data
+ - Monitor RAID Arrays, disk faults and [smart](https://en.wikipedia.org/wiki/Self-Monitoring,_Analysis_and_Reporting_Technology) information.
+ - Monitor data on [docker containers](http://docker.com)
+ - Monitor [nvidia](http://nvidia.com) graphics data
+ - [Home Assistant](http://www.home-assistant.io) sensor/binary sensor/trigger auto-configuration.
 
 ## Documentation
 
