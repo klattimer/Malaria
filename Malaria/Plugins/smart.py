@@ -22,4 +22,4 @@ class Smart(MalariaPlugin):
             except Exception as e:
                 print("Attribute error: " + device.name)
                 print(e)
-        self.report_data(data, True)
+        self.report_data(data)

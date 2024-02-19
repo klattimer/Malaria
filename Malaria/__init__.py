@@ -19,6 +19,8 @@ def clean_topic(topic):
     topic = topic.replace('/', '_')
     topic = topic.replace(' ', '_')
     topic = topic.replace('.', '_')
+    topic = topic.replace('(', '')
+    topic = topic.replace(')', '')
     return topic
 
 class Malaria:

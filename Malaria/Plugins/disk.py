@@ -130,4 +130,4 @@ class Disks(MalariaPlugin):
             "drives": drives,
             'mdstat': md
         }
-        self.report_data(data, True)
+        self.report_data(data)
