@@ -99,6 +99,7 @@ class Malaria:
             if pkwargs['enabled'] is not True:
                 continue
             try:
+                logging.info("Starting plugin: " + p)
                 self.plugins.append(self.plugin_classes[p](self, **pkwargs))
             except:
                 logging.exception("Failed to start plugin: " + p)
