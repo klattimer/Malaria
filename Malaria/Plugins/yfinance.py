@@ -11,7 +11,7 @@ class YFinance(MalariaPlugin):
                 'dayHigh',
                 'dayLow',
                 'open',
-                'lastPrice'
+                'lastPrice',
                 'previousClose'
             ]
         self.keys = keys
@@ -25,7 +25,7 @@ class YFinance(MalariaPlugin):
             self.malaria.register_homeassistant_sensor(
                 ha_topic,
                 None,
-                f"{symbol}",
+                symbol,
                 '',
                 'string',
                 'mdi:finance'
