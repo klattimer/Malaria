@@ -28,6 +28,7 @@ types of data collection would have gaps, and hit performance un-necessarily.
  - Monitor RAID Arrays, disk faults and [smart](https://en.wikipedia.org/wiki/Self-Monitoring,_Analysis_and_Reporting_Technology) information.
  - Monitor data on [docker containers](http://docker.com)
  - Monitor [nvidia](http://nvidia.com) graphics data
+ - Monitor [Yahoo Finance](http://finance.yahoo.com) symbol data
  - [Home Assistant](http://www.home-assistant.io) sensor/binary sensor/trigger auto-configuration.
 
 ## Documentation

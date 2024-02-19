@@ -15,6 +15,21 @@ class YFinance(MalariaPlugin):
                 'previousClose'
             ]
         self.keys = keys
+
+        for symbol in self.symbols:
+            ha_topic = '/'.join([
+                self.__class__.__name__,
+                symbol,
+                'lastPrice'
+            ])
+            self.malaria.register_homeassistant_sensor(
+                ha_topic,
+                None,
+                f"{symbol}",
+                '',
+                'string',
+                'mdi:finance'
+            )
     
     def update(self):
         data = {}
