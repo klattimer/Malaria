@@ -1,5 +1,6 @@
 from Malaria.Plugins import MalariaPlugin
 from zeroconf import Zeroconf, ServiceBrowser
+import logging 
 
 
 class ZeroconfMalaria(MalariaPlugin):
@@ -57,7 +58,7 @@ class ZeroconfMalaria(MalariaPlugin):
         self.browser = ServiceBrowser(self.zeroconf, services, self)
 
     def remove_service(self, zeroconf, type, name):
-        print("Service %s removed" % (name,))
+        logging.info("Service %s removed" % (name,))
 
     def update_service(self, zeroconf, type, name):
         info = zeroconf.get_service_info(type, name)
@@ -77,6 +78,7 @@ class ZeroconfMalaria(MalariaPlugin):
             })
 
     def add_service(self, zeroconf, type, name):
+        logging.info("Service %s added" % (name,))
         info = zeroconf.get_service_info(type, name)
         if info:
             service_data = {

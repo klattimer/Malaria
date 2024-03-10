@@ -87,7 +87,7 @@ class Malaria:
 
                     self.plugin_classes[name] = plugin
                     logging.info("Plugin loaded \"%s\"" % name)
-                except:
+                except Exception as e:
                     logging.exception("Plugin failed to load: \"%s\"" % name)
 
     def run(self):

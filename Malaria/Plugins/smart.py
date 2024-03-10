@@ -1,4 +1,5 @@
 from Malaria.Plugins import MalariaPlugin
+import logging
 try:
     from pySMART import DeviceList
     from pySMART import Device
@@ -20,6 +21,5 @@ class Smart(MalariaPlugin):
                     if attribute is None: continue 
                     data[device.name][attribute.name] = attribute.raw
             except Exception as e:
-                print("Attribute error: " + device.name)
-                print(e)
+                logging.exception("Attribute error: " + device.name)
         self.report_data(data)

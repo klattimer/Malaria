@@ -51,7 +51,7 @@ class Users(MalariaPlugin):
         lastlog = None
         try:
             lastlog = self.lastlog()
-        except:
+        except Exception as e:
             logging.exception("Cannot get lastlog data")
 
         self.report_data({
