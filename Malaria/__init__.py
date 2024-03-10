@@ -106,17 +106,24 @@ class Malaria:
 
         self.client.loop_start()
 
+        self.client.publish(self.base_topic + '/status', "online")
         count = 0
         while self.running is True:
-            self.update()
-            time.sleep(1)
-            self.drain()
+            try:
+                self.update()
+                time.sleep(1)
+                self.drain()
+            except Exception as e:
+                logging.exception("Malaria main loop raised an exception")
+                self.client.publish(self.base_topic + '/status', "crashed")
+                return 
 
             count += 1
             if count > 60:
                 count = 0
                 for topic, data in self.hass_cache:
                     self.client.publish(topic, data)
+        self.client.publish(self.base_topic + '/status', "offline")
 
     def report_reading(self, subtopic, value):
         subtopic = subtopic.replace('//', '/')
@@ -231,8 +238,7 @@ class Malaria:
 
         self.client.publish(ha_topic, json.dumps(ha_binary_sensor))
         self.hass_cache.append((ha_topic, json.dumps(ha_binary_sensor)))
-        self.register_homeassistant_trigger(topic, device_class, name, None, None, icon)
-
+        
     def update(self):
         for plugin in self.plugins:
             if plugin.do_update():
