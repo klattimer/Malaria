@@ -1,0 +1,15 @@
+Source: Malaria
+Section: system
+Priority: optional
+Maintainer: Karl Lattimer <karl@qdh.org.uk
+Build-Depends: debhelper (>= 9), python3, python3-setuptools
+Standards-Version: 3.9.8
+
+Package: Malaria
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}
+Description: An MQTT system monitoring tool.
+ Malaria is a pluggeable system monitoring tool, it is designed to be
+  used with MQTT, and can be used to monitor any system that can be
+  monitored using python, psutils and related libraries. Malaria is light on
+  system resources and heavy on data collection.

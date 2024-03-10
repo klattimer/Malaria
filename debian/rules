@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+    dh $@
+
+override_dh_auto_install:
+    python3 setup.py install --root=$(CURDIR)/debian/tmp
+
+override_dh_install:
+    dh_install
+    cp data/config.json $(CURDIR)/debian/malaria/etc/malaria/config.json
+    cp data/malaria.service $(CURDIR)/debian/malaria/etc/systemd/system/malaria.service

@@ -1,0 +1,2 @@
+data/malaria.service etc/systemd/system
+data/config.json etc/malaria 
